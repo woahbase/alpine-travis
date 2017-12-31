@@ -1,0 +1,18 @@
+ARG ARCH=frommakefile
+ARG DOCKERSRC=frommakefile
+ARG USERNAME=frommakefile
+#
+FROM ${USERNAME}/${DOCKERSRC}:${ARCH}
+#
+RUN set -xe \
+    && apk add --no-cache -Uu --purge --virtual .build-deps -uU libc-dev libffi-dev linux-headers build-base \
+    && gem install travis --no-rdoc --no-ri \
+    && gem cleanup \
+    && apk del --purge .build-deps \
+    && rm -rf /usr/lib/ruby/gems/*/cache/* \
+    && rm -rf /var/cache/apk/* /tmp/*
+# VOLUME /home/alpine/project/ # specify at runtime
+# USER alpine
+# WORKDIR /home/alpine/project/
+# ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["travis"]
