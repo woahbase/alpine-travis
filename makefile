@@ -25,6 +25,8 @@ BUILDFLAGS := --rm --force-rm --compress -f $(CURDIR)/Dockerfile_$(ARCH) -t $(IM
 	--label org.label-schema.build-date=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
 	--label org.label-schema.name=$(DOCKEREPO) \
 	--label org.label-schema.schema-version="1.0" \
+	--label org.label-schema.url="https://woahbase.online/" \
+	--label org.label-schema.usage="https://woahbase.online/\#/images/$(DOCKEREPO)" \
 	--label org.label-schema.vcs-ref=$(shell git rev-parse --short HEAD) \
 	--label org.label-schema.vcs-url="https://github.com/$(USERNAME)/$(DOCKEREPO)" \
 	--label org.label-schema.vendor=$(USERNAME)
@@ -68,7 +70,7 @@ rm : stop
 	docker rm -f docker_$(SVCNAME)
 
 run :
-	docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) $(IMAGETAG)
+	docker run --rm -it $(NAMEFLAGS) $(RUNFLAGS) $(PORTFLAGS) $(MOUNTFLAGS) $(OTHERFLAGS) --entrypoint /bin/bash $(IMAGETAG)
 
 rshell :
 	docker exec -u root -it docker_$(SVCNAME) $(SHCOMMAND)
