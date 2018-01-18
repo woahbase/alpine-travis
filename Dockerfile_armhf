@@ -12,7 +12,7 @@ RUN set -xe \
     && rm -rf /usr/lib/ruby/gems/*/cache/* \
     && rm -rf /var/cache/apk/* /tmp/*
 # VOLUME /home/alpine/project/ # specify at runtime
-# USER alpine
-# WORKDIR /home/alpine/project/
+USER alpine
+WORKDIR /home/alpine/project/
 # ENTRYPOINT ["/bin/bash"]
 ENTRYPOINT ["travis"]
